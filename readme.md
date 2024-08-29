@@ -1,11 +1,11 @@
 # How to benchmark in Go
 
-I'm going to benchmark the [strings.Builder](https://pkg.go.dev/strings#Builder) against normal concatenation and then try to make an optimized version of it (though potentially unsafe)
+Write an implementation of `wc` and then benchmark that to see if i can make it go faster
 
 ## Running
 
 ```sh
-go test -bench=.
+go test -bench=. ./wc
 ```
 
 ## Output Overview
@@ -13,18 +13,21 @@ go test -bench=.
 ```sh
 goos: darwin
 goarch: arm64
-pkg: github.com/griggsca91/stringbuilder-benchmark
-BenchmarkBuildString_Builder/1Write_NoGrow-8            35288278                29.25 ns/op           48 B/op          1 allocs/op
-BenchmarkBuildString_Builder/3Write_NoGrow-8            10506189               115.5 ns/op           336 B/op          3 allocs/op
-BenchmarkBuildString_Builder/3Write_Grow-8              29229705                42.11 ns/op          112 B/op          1 allocs/op
-BenchmarkBuildString_WriteString/1Write_NoGrow-8        41453700                29.38 ns/op           48 B/op          1 allocs/op
+pkg: github.com/griggsca91/gobenchmarkexample/wc
+BenchmarkCountLines-8              10000            112378 ns/op
+BenchmarkCountWords-8               1509            807683 ns/op
+PASS
+ok      github.com/griggsca91/gobenchmarkexample/wc     2.615s
 ....
 ```
 
 1st Column is the benchmark test that was ran
 2nd Column is the number of times that the benchmark loop ran
 3rd Column is the amount of time each loop took to run
-4th Column is the number of bytes allocated in each operation
+
+### Thoughts
+
+That's pretty high, lets see what we can do.  
 
 ## Running a specific benchmark
 
@@ -36,6 +39,7 @@ BenchmarkBuildString_WriteString/1Write_NoGrow-8        41453700                
 
 ## References
 
+<https://codingchallenges.fyi/challenges/challenge-wc>
 <https://gobyexample.com/testing-and-benchmarking>
 <https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go>
 <https://pkg.go.dev/testing#hdr-Benchmarks>
