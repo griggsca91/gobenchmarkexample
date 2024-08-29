@@ -1,0 +1,7 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/griggsca91/gobenchmarkexample/wc
+BenchmarkCountLines-8   	   10000	    114220 ns/op
+BenchmarkCountWords-8   	    1494	    799148 ns/op
+PASS
+ok  	github.com/griggsca91/gobenchmarkexample/wc	2.615s
